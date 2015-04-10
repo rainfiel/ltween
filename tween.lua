@@ -4,49 +4,53 @@ local easing = require "easing"
 
 --just for readability
 local tween_types = {
-	Linear=1,
+	Linear=0,
 
-	Quadratic_In=2,
-	Quadratic_Out=3,
-	Quadratic_InOut=4,
+	Quadratic_In=1,
+	Quadratic_Out=2,
+	Quadratic_InOut=3,
 
-	Cubic_In=5,
-	Cubic_Out=6,
-	Cubic_InOut=7,
+	Cubic_In=4,
+	Cubic_Out=5,
+	Cubic_InOut=6,
 
-	Quartic_In=8,
-	Quartic_Out=9,
-	Quartic_InOut=10,
+	Quartic_In=7,
+	Quartic_Out=8,
+	Quartic_InOut=9,
 
-	Quintic_In=11,
-	Quintic_Out=12,
-	Quintic_InOut=13,
+	Quintic_In=10,
+	Quintic_Out=11,
+	Quintic_InOut=12,
 
-	Sine_In=14,
-	Sine_Out=15,
-	Sine_InOut=16,
+	Sine_In=13,
+	Sine_Out=14,
+	Sine_InOut=15,
 
-	Circular_In=17,
-	Circular_Out=18,
-	Circular_InOut=19,
+	Circular_In=16,
+	Circular_Out=17,
+	Circular_InOut=18,
 
-	Elastic_In=20,
-	Elastic_Out=21,
-	Elastic_InOut=22,
+	Expo_In=19,
+	Expo_Out=20,
+	Expo_InOut=21,
 
-	Bounce_In=23,
-	Bounce_Out=24,
-	Bounce_InOut=25,
+	Elastic_In=22,
+	Elastic_Out=23,
+	Elastic_InOut=24,
 
-	Back_In=26,
-	Back_Out=27,
-	Back_InOut=28,
+	Bounce_In=25,
+	Bounce_Out=26,
+	Bounce_InOut=27,
+
+	Back_In=28,
+	Back_Out=29,
+	Back_InOut=30,
 }
 
 local wrap_modes = {
-	Once = 1,
-	Loop = 2,
-	PingPong = 3,
+	Once = 0,
+	Loop = 1,
+	PingPong = 2,
 }
 -----------------------------------------------------------------------------------
 
@@ -55,8 +59,9 @@ mt.__index = mt
 function mt:make(tween_type, times, wrap_mode, start_val, end_val)
 	self.container = self.container or {}
 	self.times = times
-	self.wrap_mode = wrap_mode or 1
-	self.frames = easing.easing(self.container, tween_type, start_val or 0, end_val or 1, times)
+	self.wrap_mode = wrap_mode or wrap_modes.Once
+
+	easing.easing(self.container, tween_type, start_val or 0, end_val or 1, times)
 
 	self.step_index = 0
 	self.delta = 1
