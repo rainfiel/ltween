@@ -65,8 +65,6 @@ _easing(lua_State* L) {
 	float end = (float)luaL_checknumber(L, 4);
 	float times = (float)luaL_checkinteger(L, 5);
 
-	printf("%d\n", sizeof(easing_funcs)/sizeof(easing_funcs[0]));
-
 	if (type >= sizeof(easing_funcs)/sizeof(easing_funcs[0])) {
 		luaL_error(L, "invalid easing function:%d", type);
 	}
