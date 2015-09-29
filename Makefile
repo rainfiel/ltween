@@ -1,5 +1,5 @@
 LIBNAME = easing
-LUADIR = ../lua/
+LUADIR = /usr/local/include
 
 COPT = -O2
 # COPT = -DLPEG_DEBUG -g

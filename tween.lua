@@ -57,30 +57,44 @@ local wrap_modes = {
 local mt = {}
 mt.__index = mt
 function mt:make(tween_type, times, wrap_mode, start_val, end_val)
+	start_val = start_val or 0
+	end_val = end_val or 1
+	if tween_type==self.tween_type and
+			-- times == self.times and
+			wrap_mode == self.wrap_mode and
+			-- start_val == self.start_val and
+			end_val == self.end_val then
+		return
+	end
+
 	self.container = self.container or {}
+	self.tween_type = tween_type
 	self.times = times
 	self.wrap_mode = wrap_mode or wrap_modes.Once
+	self.start_val = start_val
+	self.end_val = end_val or 1
+	easing.easing(self.container, tween_type, self.start_val, self.end_val, times)
 
-	easing.easing(self.container, tween_type, start_val or 0, end_val or 1, times)
+	self:reset()
+end
 
+function mt:reset()
 	self.step_index = 0
 	self.delta = 1
-	self.target = self.times
 end
 
 function mt:step()
 	self.step_index = self.step_index + self.delta
 	local val = self.container[self.step_index]
 
-	if self.step_index == self.target then
+	if not val then
 		if self.wrap_mode == wrap_modes.Once then
 			return val, false
 		elseif self.wrap_mode == wrap_modes.Loop then
-			self.step_index = 1 - self.delta
+			self.step_index = 0
 			return val, false
 		elseif self.wrap_mode == wrap_modes.PingPong then
 			self.delta = -self.delta
-			self.target = self.target == 1 and self.times or 1
 			return val, false
 		end
 	end
@@ -112,7 +126,6 @@ function mt:test()
 
 	self.step_index = 0
 	self.delta = 1
-	self.target = self.times
 end
 
 
